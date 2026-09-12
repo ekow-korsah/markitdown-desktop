@@ -1,0 +1,46 @@
+{
+  "name": "markitdown-desktop",
+  "productName": "MarkItDown",
+  "version": "1.0.0",
+  "description": "Turn documents and links into clean Markdown. Runs entirely on your Mac.",
+  "author": "Ekow Korsah",
+  "license": "MIT",
+  "private": true,
+  "type": "module",
+  "main": "dist-electron/main.cjs",
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "typecheck": "tsc --noEmit",
+    "build": "vite build && node scripts/build-electron.mjs",
+    "sidecar": "./scripts/build-sidecar.sh",
+    "test:sidecar": "service/.venv/bin/python scripts/test-sidecar.py",
+    "test:sidecar:packaged": "service/.venv/bin/python scripts/test-sidecar.py --binary service/dist/markitdown-service/markitdown-service",
+    "dist": "pnpm run sidecar && pnpm run build && electron-builder"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/node": "^22.20.2",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.1",
+    "electron": "^44.3.0",
+    "electron-builder": "^26.15.3",
+    "esbuild": "^0.28.2",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.0"
+  },
+  "dependencies": {
+    "dompurify": "^3.4.15",
+    "marked": "^18.0.12",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "electron",
+      "esbuild",
+      "dmg-license"
+    ]
+  }
+}

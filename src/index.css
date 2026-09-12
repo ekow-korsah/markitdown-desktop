@@ -1,0 +1,313 @@
+@import 'tailwindcss';
+
+/*
+  MarkItDown Desktop
+  ------------------
+  Warm paper light theme: a cream ground with an apricot wash bleeding in from
+  the right-hand corners, near-white cards floating on top, and hairline rules
+  doing the dividing instead of boxes. Raleway throughout, self-hosted because
+  the app's CSP only allows same-origin fonts.
+*/
+
+/* Raleway variable (400-800), latin + latin-ext, upright and italic. */
+@font-face {
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url('./fonts/raleway-latin-normal.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url('./fonts/raleway-latin-ext-normal.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304,
+    U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0,
+    U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Raleway';
+  font-style: italic;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url('./fonts/raleway-latin-italic.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Raleway';
+  font-style: italic;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url('./fonts/raleway-latin-ext-italic.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304,
+    U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0,
+    U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@theme {
+  --color-canvas: #f4f1ea;
+  --color-surface: #fcfbf8;
+  --color-surface-hover: #efeae1;
+  --color-surface-sunken: #eae5db;
+
+  --color-line: #e3ddd2;
+  --color-line-soft: #ece7dd;
+
+  --color-ink: #1e1c18;
+  --color-ink-2: #6e675b;
+  --color-ink-3: #9c9488;
+
+  --color-accent: #cc5b26;
+  --color-accent-wash: #f6e2d3;
+  --color-ok: #3f8f6b;
+  --color-danger: #bf4a2f;
+
+  --font-ui: 'Raleway', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, monospace;
+
+  --radius-panel: 14px;
+  --radius-card: 11px;
+}
+
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    margin: 0;
+    background: var(--color-canvas);
+    color: var(--color-ink);
+    font-family: var(--font-ui);
+    font-size: 13px;
+    font-optical-sizing: auto;
+    -webkit-font-smoothing: antialiased;
+    overflow: hidden;
+  }
+
+  /* A desktop app shouldn't feel like a web page. */
+  * {
+    cursor: default;
+    user-select: none;
+  }
+
+  input,
+  textarea,
+  [data-selectable] {
+    user-select: text;
+  }
+
+  input,
+  textarea {
+    cursor: text;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background: rgb(204 91 38 / 0.18);
+  }
+}
+
+@layer utilities {
+  .drag-region {
+    -webkit-app-region: drag;
+  }
+
+  .no-drag {
+    -webkit-app-region: no-drag;
+  }
+
+  /*
+    The apricot wash. Strongest at the top-right and bottom-right corners,
+    leaving the middle of the canvas clear so text stays comfortable to read.
+  */
+  .canvas-wash {
+    background-color: var(--color-canvas);
+    background-image:
+      radial-gradient(125% 85% at 100% 0%, rgb(240 174 121 / 0.5) 0%, rgb(240 174 121 / 0) 58%),
+      radial-gradient(115% 80% at 104% 100%, rgb(238 160 112 / 0.42) 0%, rgb(238 160 112 / 0) 55%),
+      radial-gradient(70% 55% at 0% 108%, rgb(233 196 164 / 0.28) 0%, rgb(233 196 164 / 0) 62%);
+  }
+
+  .scroll-quiet {
+    scrollbar-width: thin;
+    scrollbar-color: #d5cec2 transparent;
+  }
+
+  .card-shadow {
+    box-shadow:
+      0 1px 2px rgb(59 47 32 / 0.04),
+      0 8px 24px -12px rgb(59 47 32 / 0.14);
+  }
+}
+
+/*
+  The converted document. Set in Raleway like the rest of the app, but larger
+  and looser than the interface so it reads as prose rather than chrome.
+*/
+.prose-paper {
+  color: var(--color-ink);
+  font-size: 14.5px;
+  line-height: 1.68;
+  max-width: 70ch;
+}
+
+.prose-paper > :first-child {
+  margin-top: 0;
+}
+
+.prose-paper h1,
+.prose-paper h2,
+.prose-paper h3,
+.prose-paper h4,
+.prose-paper h5,
+.prose-paper h6 {
+  font-weight: 680;
+  line-height: 1.25;
+  letter-spacing: -0.014em;
+  margin: 1.85em 0 0.5em;
+}
+
+.prose-paper h1 {
+  font-size: 25px;
+  letter-spacing: -0.022em;
+}
+.prose-paper h2 {
+  font-size: 19px;
+}
+.prose-paper h3 {
+  font-size: 16px;
+}
+.prose-paper h4,
+.prose-paper h5,
+.prose-paper h6 {
+  font-size: 14px;
+}
+
+.prose-paper p,
+.prose-paper ul,
+.prose-paper ol,
+.prose-paper blockquote,
+.prose-paper pre,
+.prose-paper table {
+  margin: 0 0 1.05em;
+}
+
+.prose-paper ul,
+.prose-paper ol {
+  padding-left: 1.35em;
+}
+
+.prose-paper ul {
+  list-style: disc;
+}
+.prose-paper ol {
+  list-style: decimal;
+}
+.prose-paper li {
+  margin: 0.25em 0;
+}
+.prose-paper li::marker {
+  color: var(--color-ink-3);
+}
+
+.prose-paper a {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-thickness: 0.06em;
+  cursor: pointer;
+}
+
+.prose-paper strong {
+  font-weight: 700;
+}
+
+.prose-paper blockquote {
+  border-left: 2px solid var(--color-accent);
+  padding-left: 1em;
+  color: var(--color-ink-2);
+  font-style: italic;
+}
+
+.prose-paper code {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  background: var(--color-surface-sunken);
+  border-radius: 4px;
+  padding: 0.13em 0.36em;
+}
+
+.prose-paper pre {
+  font-family: var(--font-mono);
+  background: #f5f1e8;
+  border: 1px solid var(--color-line);
+  border-radius: 8px;
+  padding: 0.85em 1em;
+  overflow-x: auto;
+  font-size: 12.5px;
+  line-height: 1.55;
+}
+
+.prose-paper pre code {
+  background: none;
+  padding: 0;
+  font-size: inherit;
+}
+
+.prose-paper hr {
+  border: 0;
+  border-top: 1px solid var(--color-line);
+  margin: 2em 0;
+}
+
+.prose-paper img {
+  max-width: 100%;
+  border-radius: 6px;
+}
+
+/* Converted spreadsheets and PDFs lean on tables heavily, so they get real care. */
+.prose-paper table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12.5px;
+  display: block;
+  overflow-x: auto;
+}
+
+.prose-paper th,
+.prose-paper td {
+  border: 1px solid var(--color-line);
+  padding: 0.45em 0.72em;
+  text-align: left;
+  vertical-align: top;
+}
+
+.prose-paper th {
+  background: #f5f1e8;
+  font-weight: 650;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

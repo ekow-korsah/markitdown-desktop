@@ -1,0 +1,27 @@
+# dependencies
+node_modules/
+.pnpm-store/
+
+# build output
+dist/
+dist-electron/
+release/
+out/
+
+# python sidecar
+service/.venv/
+service/build/
+service/dist/
+__pycache__/
+*.py[cod]
+
+# macOS
+.DS_Store
+
+# local
+*.log
+.env
+.env.local
+assets/fixtures/
+screenshots/
+.tmp-install/

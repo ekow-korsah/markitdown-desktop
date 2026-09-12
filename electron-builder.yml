@@ -1,0 +1,57 @@
+appId: com.ekowkorsah.markitdown
+productName: MarkItDown
+copyright: Copyright © 2026 Ekow Korsah
+
+directories:
+  output: release
+  buildResources: build
+
+# The renderer and Electron bundles; everything else is pulled in as resources.
+files:
+  - dist/**/*
+  - dist-electron/**/*
+  - package.json
+
+# The PyInstaller bundle ships beside the app, outside the asar archive, so the
+# binary stays executable and can be spawned directly.
+extraResources:
+  - from: service/dist/markitdown-service
+    to: service
+    filter:
+      - '**/*'
+
+npmRebuild: false
+
+mac:
+  category: public.app-category.productivity
+  icon: build/icon.icns
+  darkModeSupport: true
+  # Apple Silicon only: the sidecar is built against an arm64 Python.
+  target:
+    - target: dmg
+      arch:
+        - arm64
+  # No Developer ID yet, so electron-builder does not sign. scripts/after-pack.cjs
+  # applies an ad-hoc signature instead, which arm64 requires in order to run at all.
+  identity: null
+  extendInfo:
+    NSHumanReadableCopyright: Copyright © 2026 Ekow Korsah
+    LSMinimumSystemVersion: '11.0'
+
+dmg:
+  title: MarkItDown
+  background: build/dmg-background.png
+  window:
+    width: 660
+    height: 420
+  iconSize: 112
+  contents:
+    - x: 180
+      y: 170
+      type: file
+    - x: 480
+      y: 170
+      type: link
+      path: /Applications
+
+afterPack: scripts/after-pack.cjs

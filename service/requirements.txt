@@ -1,0 +1,8 @@
+# MarkItDown Desktop - Python sidecar dependencies
+#
+# Extras chosen for v1 (see plan): core document formats + YouTube transcripts.
+# Deliberately excluded: audio-transcription, az-doc-intel, az-content-understanding.
+markitdown[pdf,docx,pptx,xlsx,xls,youtube-transcription]
+
+# Packaging
+pyinstaller>=6.22.2
